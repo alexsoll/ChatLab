@@ -28,4 +28,6 @@ jobs:
           ls -la
           chmod +x ./clang-format/*
           find . -regex './chatlab/src/.*\.\(cpp\|hpp\|c\|h\)' -exec ./clang-format/clang-format -n -Werror {} \;
-          exit $?
+          exit_code=$?
+          echo "exit_code = ${exit_code}"
+          exit ${exit_code}
