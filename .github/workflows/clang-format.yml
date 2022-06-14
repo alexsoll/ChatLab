@@ -27,7 +27,13 @@ jobs:
         run: |
           ls -la
           chmod +x ./clang-format/*
-          find . -regex './chatlab/src/.*\.\(cpp\|hpp\|c\|h\)' -exec ./clang-format/clang-format -n -Werror {} \;
-          exit_code=$?
-          echo "exit_code = ${exit_code}"
+          for file in $(find . -regex './chatlab/src/.*\.\(cpp\|hpp\|c\|h\)')
+          do
+            echo "[DEBUG]: Analyzing ${file}"
+            ./clang-format/clang-format --verbose -n ${file}
+            if [[ $? != 0 ]]
+            then
+              exit_code=1
+            fi
+          done
           exit ${exit_code}
